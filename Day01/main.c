@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 	FILE *fp = fopen(argv[1], "r");
 
 	char c;
-	int f = 0;
+	int f = 0, enteredBasement = 0;
 	for (int i = 1; (c = fgetc(fp)) != EOF; ++i) {
 		switch (c) {
 			case '(': {
@@ -20,6 +20,11 @@ int main(int argc, char **argv)
 			case ')': {
 				--f;
 			} break;
+		}
+
+		if (!enteredBasement && f == -1) {
+			fprintf(stdout, "%i is the position of the first character that forces Santa to enter the basement.\n", i);
+			enteredBasement = 1;
 		}
 	}
 
