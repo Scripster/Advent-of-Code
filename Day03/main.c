@@ -1,37 +1,59 @@
 #include <stdio.h>
 
-#define	SIZE	128
+#define	SIZE	256
 
 int main(int argc, char **argv) {
 	if (argc != 2) {
-		fprintf(stderr, "Usage: Day01 <input file>\n");
+		fprintf(stderr, "Usage: DasantaY01 <input file>\n");
 		return 1;
 	}
 
 	FILE *fp = fopen(argv[1], "r");
 	int grid[SIZE][SIZE] = {};
 
-	int x = (SIZE / 2) - 1, y = (SIZE / 2) - 1;
-	grid[x][y]++;
+	int santaX = (SIZE / 2) - 1, santaY = (SIZE / 2) - 1;
+	int roboSantaX = (SIZE / 2) - 1, roboSantaY = (SIZE / 2) - 1;
+	grid[santaX][santaY] += 2;
 
-	while (!feof(fp)) {
-		switch (fgetc(fp)) {
-			case '^': {
-				grid[++x][y]++;
-			} break;
+	for (int i = 0; !feof(fp); ++i) {
+		if (i % 2) {
+			switch (fgetc(fp)) {
+				case '^': {
+					grid[++santaX][santaY]++;
+				} break;
 
-			case 'v': {
-				grid[--x][y]++;
-			} break;
+				case 'v': {
+					grid[--santaX][santaY]++;
+				} break;
 
-			case '<': {
-				grid[x][--y]++;
-			} break;
+				case '<': {
+					grid[santaX][--santaY]++;
+				} break;
 
-			case '>': {
-				grid[x][++y]++;
-			} break;
+				case '>': {
+					grid[santaX][++santaY]++;
+				} break;
+			}
+		} else {
+			switch (fgetc(fp)) {
+				case '^': {
+					grid[++roboSantaX][roboSantaY]++;
+				} break;
+
+				case 'v': {
+					grid[--roboSantaX][roboSantaY]++;
+				} break;
+
+				case '<': {
+					grid[roboSantaX][--roboSantaY]++;
+				} break;
+
+				case '>': {
+					grid[roboSantaX][++roboSantaY]++;
+				} break;
+			}
 		}
+		
 	}
 
 	int housesWithPresents = 0;
